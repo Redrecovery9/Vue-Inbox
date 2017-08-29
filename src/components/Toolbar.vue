@@ -3,21 +3,21 @@
     <div class="row toolbar">
       <div class="col-md-12">
         <p class="pull-right">
-          <span class="badge badge">2</span>
+          <b-badge pill variant="">2</b-badge>
           unread messages
         </p>
 
-        <b-button class="btn btn-default">
-          <icon name="check-square-o"></icon>
-        </b-button>
+        <a class="btn btn-danger">
+          <icon name="plus"></icon>
+        </a>
 
         <b-button class="btn btn-default">
-          Mark As Read
+          <icon name="minus-square-o"></icon>
         </b-button>
 
-        <b-button class="btn btn-default">
-          Mark As Unread
-        </b-button>
+        <b-button class="btn btn-default">Mark As Read</b-button>
+
+        <b-button class="btn btn-default">Mark As Unread</b-button>
 
         <select class="form-control label-select">
           <option>Apply label</option>
