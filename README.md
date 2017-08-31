@@ -1,5 +1,7 @@
 # vue-inbox
 
+Deployed site [vue-inbox](https://vue-inbox.firebaseapp.com/)
+
 > A Vue.js project
 
 ## Build Setup
