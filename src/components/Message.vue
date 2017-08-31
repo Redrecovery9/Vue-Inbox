@@ -3,7 +3,7 @@
     <div class="col-xs-1">
       <div class="row">
         <div class="col-xs-2">
-          <input v-on:click='toggle(email)' class='check' type="checkbox" v-model="checked"/>
+          <input v-on:click='toggle(email)' class='check' type="checkbox" v-model="email.selected"/>
         </div>
         <div v-on:click="starred" class="col-xs-2">
           <icon v-if='email.starred' class="star" v-bind:name='star'></icon>
@@ -24,32 +24,15 @@
 <script>
 export default {
   name: 'email',
-  props: ['email', 'toggle'],
+  props: ['email', 'toggle', 'staro', 'star', 'starred'],
   data() {
     return {
-      staro: 'star-o',
-      star: 'star',
-      checked: this.email.selected
+
     }
   },
 
   methods: {
-    starred: function() {
-      let data = this.$data;
-      // data.staro = 'star'
-      // data.star = 'star-o'
 
-      if (data.staro === 'star-o') {
-        data.staro = 'star'
-      }
-      else if (data.star === 'star') {
-        data.star = 'star-o'
-      }
-      else {
-        data.staro = 'star-o'
-        data.star = 'star'
-      }
-    }
   }
 }
 </script>

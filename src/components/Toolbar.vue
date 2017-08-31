@@ -2,12 +2,14 @@
   <div class="row toolbar">
     <div class="col-md-12">
 
-      <a class="btn btn-danger" v-on:click='bulkSelect'>
+      <a class="btn btn-danger" v-on:click='showCompose'>
         <icon name="plus"></icon>
       </a>
 
-      <b-button class="btn btn-default">
-        <icon name="minus-square-o"></icon>
+      <b-button class="btn btn-default" v-on:click='bulkSelect'>
+        <icon v-if='minus' name="minus-square-o"></icon>
+        <icon v-if='blank' name="square-o"></icon>
+        <icon v-if='check' name="check-square-o"></icon>
       </b-button>
 
       <b-button class="btn btn-default">Mark As Read</b-button>
@@ -42,7 +44,7 @@ import Badge from './Badge'
 
 export default {
   name: 'toolbar',
-  props: [],
+  props: ['bulkSelect', 'minus', 'check', 'blank', 'show', 'showCompose'],
   components: {
     Badge
   }

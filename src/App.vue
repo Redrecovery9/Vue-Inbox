@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <toolbar></toolbar>
-    <!-- <compose v-show='show'></compose> -->
-    <messages :emails='emails' :toggle='toggle'></messages>
+    <toolbar :minus='minus' :check='check' :blank='blank' :showCompose='showCompose' :show='show'></toolbar>
+    <compose v-show='show'></compose>
+    <messages :emails='emails' :toggle='toggle' :staro='staro' :star='star' :starred='starred'></messages>
   </div>
 </template>
 
@@ -22,16 +22,43 @@ export default {
   data() {
     return{
       show: false,
-      emails: Data
+      emails: Data,
+      minus: false,
+      check: false,
+      blank: true,
+      staro: 'star-o',
+      star: 'star',
     }
   },
   methods: {
     toggle(message) {
       message.selected = !message.selected
     },
-    // showCompose() {
-    //
-    // }
+    bulkSelect() {
+
+    },
+    showCompose() {
+      if (this.$data.show === true) {
+        this.$data.show = false
+      }
+      else {
+        this.$data.show = true
+      }
+    },
+    starred() {
+      let data = this.$data;
+
+      if (data.staro === 'star-o') {
+        data.staro = 'star'
+      }
+      else if (data.star === 'star') {
+        data.star = 'star-o'
+      }
+      else {
+        data.staro = 'star-o'
+        data.star = 'star'
+      }
+    },
   }
 }
 </script>
