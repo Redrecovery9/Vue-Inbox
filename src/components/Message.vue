@@ -5,9 +5,9 @@
         <div class="col-xs-2">
           <input v-on:click='toggle(email)' class='check' type="checkbox" v-model="email.selected"/>
         </div>
-        <div v-on:click="starred" class="col-xs-2">
-          <icon v-if='email.starred' class="star" v-bind:name='star'></icon>
-          <icon v-if='!email.starred' class="star" v-bind:name='staro'></icon>
+        <div v-on:click="starred(email)" class="col-xs-2">
+          <icon v-if='email.starred' class="star" name='star'></icon>
+          <icon v-if='!email.starred' class="star" name='star-o'></icon>
           <!-- <icon class="star" v-bind:name='myIcon'></icon> -->
         </div>
       </div>
