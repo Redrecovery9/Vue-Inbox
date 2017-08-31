@@ -2,7 +2,7 @@
   <div class="row toolbar">
     <div class="col-md-12">
 
-      <a class="btn btn-danger">
+      <a class="btn btn-danger" v-on:click='bulkSelect'>
         <icon name="plus"></icon>
       </a>
 
