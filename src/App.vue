@@ -43,8 +43,8 @@ export default {
         this.$data.show = true
       }
     },
-    starred(message) {
-      message.starred = !message.starred
+    starred(email) {
+      email.starred = !email.starred
     },
   }
 }
@@ -125,11 +125,16 @@ export default {
 
 .check {
   margin-left: 2em;
+  margin-right: .5em;
 }
 
 .star {
   margin-left: 1em;
   margin-right: 4em;
+}
+
+.body{
+  margin-left: 1em;
 }
 
 .pull-right {
