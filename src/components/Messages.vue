@@ -1,6 +1,6 @@
 <template>
   <div class="messages">
-    <Message v-for="email in emails" :email="email" key="" :toggle='toggle' :starred='starred'></Message>
+    <Message v-for="email in emails" :email="email" key="" :starred='starred'></Message>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import Message from './Message'
 
 export default {
   name: 'messages',
-  props: ['emails', 'toggle', 'starred'],
+  props: ['emails', 'starred'],
   components: {
     Message
   }

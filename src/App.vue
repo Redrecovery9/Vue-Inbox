@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <toolbar :check='check' :blank='blank' :showCompose='showCompose'
+    <toolbar :showCompose='showCompose'
     :show='show' :bulkSelect='bulkSelect' :bulkCheckbox='bulkCheckbox'
     :halfCheckbox='halfCheckbox' :emptyCheckbox='emptyCheckbox'
-    :unreadCount='unreadCount'></toolbar>
+    :unreadCount='unreadCount' :markRead='markRead' :markUnread='markUnread'
+    :emails='emails' :selected='selected' :options='options'
+    :unselected='unselected' :unoption='unoption'></toolbar>
     <compose v-show='show'></compose>
     <messages :emails='emails' :starred='starred'></messages>
   </div>
@@ -13,7 +15,7 @@
 import Toolbar from './components/Toolbar'
 import Messages from './components/Messages'
 import Compose from './components/Compose'
-import Data from './Data/seeds'
+const baseURL = 'http://localhost:8082/api'
 
 export default {
   name: 'app',
@@ -25,10 +27,30 @@ export default {
   data() {
     return{
       show: false,
-      emails: Data,
-      check: false,
-      blank: false,
+      emails: [],
+      selected: null,
+      options: [
+        {value:null, text: 'Apply Label'},
+        {value:'dev', text: 'dev'},
+        {value:'personal', text: 'personal'},
+        {value:'gschool', text: 'gschool'},
+      ],
+      unselected: null,
+      unoption: [
+        {value:null, text: 'Remove Label'},
+        {value:'dev', text: 'dev'},
+        {value:'personal', text: 'personal'},
+        {value:'gschool', text: 'gschool'},
+      ]
     }
+  },
+  async mounted(){
+    const data = await fetch(`${baseURL}/messages`)
+    const response = await data.json()
+    this.emails = response._embedded.messages.map(message => {
+      message.selected = false
+      return message
+    })
   },
   computed: {
     unreadCount() {
@@ -67,6 +89,20 @@ export default {
     },
     starred(email) {
       email.starred = !email.starred
+    },
+    markRead() {
+      for(let i = 0; i < this.emails.length; i++) {
+        if(this.emails[i].selected) {
+          this.emails[i].read = true
+        }
+      }
+    },
+    markUnread() {
+      for(let i = 0; i < this.emails.length; i++) {
+        if(this.emails[i].selected) {
+          this.emails[i].read = false
+        }
+      }
     },
   }
 }
