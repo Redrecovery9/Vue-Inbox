@@ -3,7 +3,7 @@
     <div class="col-xs-1">
       <div class="row">
         <div class="col-xs-2">
-          <input v-on:click='toggle(email)' class='check' type="checkbox" v-model="checked"/>
+          <input class='check' type="checkbox" v-model="email.selected"/>
         </div>
         <div v-on:click="starred(email)" class="col-xs-2">
           <icon v-if='email.starred' class="star" name='star'></icon>
@@ -23,10 +23,10 @@
 <script>
 export default {
   name: 'email',
-  props: ['email', 'toggle', 'starred'],
+  props: ['email', 'starred'],
   data() {
     return {
-      checked: this.email.selected
+      
     }
   },
 

@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <toolbar :minus='minus' :check='check' :blank='blank' :showCompose='showCompose' :show='show'></toolbar>
+    <toolbar :check='check' :blank='blank' :showCompose='showCompose'
+    :show='show' :bulkSelect='bulkSelect' :bulkCheckbox='bulkCheckbox'
+    :halfCheckbox='halfCheckbox' :emptyCheckbox='emptyCheckbox'
+    :unreadCount='unreadCount'></toolbar>
     <compose v-show='show'></compose>
-    <messages :emails='emails' :toggle='toggle' :starred='starred'></messages>
+    <messages :emails='emails' :starred='starred'></messages>
   </div>
 </template>
 
@@ -23,17 +26,36 @@ export default {
     return{
       show: false,
       emails: Data,
-      minus: false,
       check: false,
-      blank: true,
+      blank: false,
+    }
+  },
+  computed: {
+    unreadCount() {
+      return this.emails.reduce((acc, email) => {
+        if (email.read == false) {
+          acc++
+        }
+        return acc
+      }, 0)
+    },
+    bulkCheckbox() {
+      return this.emails.every(email => email.selected)
+    },
+    halfCheckbox() {
+      return this.emails.some(email => email.selected) && !this.bulkCheckbox
+    },
+    emptyCheckbox() {
+      return this.emails.every(email => !email.selected)
     }
   },
   methods: {
-    toggle(message) {
-      message.selected = !message.selected
-    },
     bulkSelect() {
-
+      if (this.bulkCheckbox) {
+        this.emails.forEach(email => this.$set(email, 'selected', false))
+      } else {
+        this.emails.forEach(email => this.$set(email, 'selected', true))
+      }
     },
     showCompose() {
       if (this.$data.show === true) {
