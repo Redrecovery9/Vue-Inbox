@@ -5,7 +5,7 @@
     :halfCheckbox='halfCheckbox' :emptyCheckbox='emptyCheckbox'
     :unreadCount='unreadCount' :markRead='markRead' :markUnread='markUnread'
     :emails='emails' :selected='selected' :options='options'
-    :unselected='unselected' :unoption='unoption'></toolbar>
+    :unselected='unselected' :unoption='unoption' :deleteSelected='deleteSelected'></toolbar>
     <compose v-show='show'></compose>
     <messages :emails='emails' :starred='starred'></messages>
   </div>
@@ -15,7 +15,7 @@
 import Toolbar from './components/Toolbar'
 import Messages from './components/Messages'
 import Compose from './components/Compose'
-const baseURL = 'http://localhost:8082/api'
+const baseURL = 'https://calm-dawn-17844.herokuapp.com/api'
 
 export default {
   name: 'app',
@@ -45,6 +45,11 @@ export default {
     }
   },
   async mounted(){
+    // let settings = {
+    //   method: 'PATCH',
+    //   headers: ,
+    //   data/body: body
+    // }
     const data = await fetch(`${baseURL}/messages`)
     const response = await data.json()
     this.emails = response._embedded.messages.map(message => {
@@ -89,21 +94,82 @@ export default {
     },
     starred(email) {
       email.starred = !email.starred
+      const data = {
+        "messageIds": [email.id],
+        "command": "star",
+        "star": email.starred
+      }
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${baseURL}/messages`, settings)
+       .then(response => {
+         if(response.ok){
+           console.log(response);
+         }
+       })
     },
     markRead() {
-      for(let i = 0; i < this.emails.length; i++) {
-        if(this.emails[i].selected) {
+      const ids = []
+      for (let i = 0; i < this.emails.length; i++) {
+        if (this.emails[i].selected) {
           this.emails[i].read = true
+          ids.push(Number(this.emails[i].id))
         }
       }
+      const data = {
+        "messageIds" : ids,
+        "command" : "read",
+        "read" : true
+      };
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${baseURL}/messages`, settings)
+       .then(response => {
+         if(response.ok){
+           console.log(response);
+         }
+       })
     },
     markUnread() {
-      for(let i = 0; i < this.emails.length; i++) {
-        if(this.emails[i].selected) {
+      const ids = []
+      for (let i = 0; i < this.emails.length; i++) {
+        if (this.emails[i].selected) {
           this.emails[i].read = false
+          ids.push(Number(this.emails[i].id))
         }
       }
+      const data = {
+        "messageIds" : ids,
+        "command" : "read",
+        "read" : false
+      };
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${baseURL}/messages`, settings)
+       .then(response => {
+         if(response.ok){
+           console.log(response);
+         }
+       })
     },
+    deleteSelected(email) {
+
+    }
   }
 }
 </script>

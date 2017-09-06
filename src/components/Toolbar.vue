@@ -26,7 +26,7 @@
       :options='unoption' :disabled='emptyCheckbox'>
         <div>Selected2: <strong>{{ unselected }}</strong></div></b-form-select>
 
-      <b-button class="btn btn-default" :disabled='emptyCheckbox'>
+      <b-button class="btn btn-default" v-on:click='deleteSelected(email)' :disabled='emptyCheckbox'>
         <icon name="trash-o"></icon>
       </b-button>
 
@@ -45,7 +45,7 @@ export default {
   props: ['bulkSelect', 'show', 'showCompose',
   'bulkCheckbox', 'halfCheckbox', 'emptyCheckbox', 'unreadCount',
   'markRead', 'markUnread', 'emails', 'selected', 'options',
-  'unselected', 'unoption',],
+  'unselected', 'unoption', 'baseURL', 'deleteSelected'],
   data(){
     return {
 
@@ -53,25 +53,65 @@ export default {
   },
   watch: {
     selected: function(label) {
+      let ids = []
       if (label != null) {
         for (let i = 0; i < this.emails.length; i++) {
           let hasLabel = this.emails[i].labels.some(el => el == label)
           if (this.emails[i].selected && !hasLabel) {
             this.emails[i].labels.push(label)
+            ids.push(this.emails[i].id)
           }
         }
       }
+      const data ={
+        "messageIds": ids,
+        "command": "addLabel",
+        "label": label
+      }
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${baseURL}/messages`, settings)
+       .then(response => {
+         if(response.ok){
+           console.log(response);
+         }
+       })
     },
     unselected: function(label) {
+      let ids = []
       if (label != null) {
         for (let i = 0; i < this.emails.length; i++) {
           let hasLabel = this.emails[i].labels.some(el => el == label)
           if (hasLabel && this.emails[i].selected) {
             let index = this.emails[i].labels.indexOf(label)
             this.emails[i].labels.splice(index, 1)
+            ids.push(this.emails[i].id)
           }
         }
       }
+      const data ={
+        "messageIds": ids,
+        "command": "removeLabel",
+        "label": label
+      }
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${baseURL}/messages`, settings)
+       .then(response => {
+         if(response.ok){
+           console.log(response);
+         }
+       })
     },
   },
 }
