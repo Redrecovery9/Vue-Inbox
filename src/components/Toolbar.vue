@@ -26,7 +26,7 @@
       :options='unoption' :disabled='emptyCheckbox'>
         <div>Selected2: <strong>{{ unselected }}</strong></div></b-form-select>
 
-      <b-button class="btn btn-default" v-on:click='deleteSelected(email)' :disabled='emptyCheckbox'>
+      <b-button class="btn btn-default" v-on:click='deleteSelected()' :disabled='emptyCheckbox'>
         <icon name="trash-o"></icon>
       </b-button>
 

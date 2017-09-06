@@ -162,8 +162,31 @@ export default {
          }
        })
     },
-    deleteSelected(email) {
-
+    deleteSelected() {
+      const ids = []
+      this.emails = this.emails.filter(email => {
+        if (email.selected) {
+          ids.push(Number(email.id))
+        }
+        return !email.selected
+      })
+      const data = {
+        "messageIds": ids,
+        "command": "delete"
+      }
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${baseURL}/messages`, settings)
+       .then(response => {
+         if(response.ok){
+           console.log(response);
+         }
+       })
     }
   }
 }
