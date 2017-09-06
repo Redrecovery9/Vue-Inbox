@@ -45,11 +45,6 @@ export default {
     }
   },
   async mounted(){
-    // let settings = {
-    //   method: 'PATCH',
-    //   headers: ,
-    //   data/body: body
-    // }
     const data = await fetch(`${baseURL}/messages`)
     const response = await data.json()
     this.emails = response._embedded.messages.map(message => {
