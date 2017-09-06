@@ -113,7 +113,7 @@ export default {
       for (let i = 0; i < this.emails.length; i++) {
         if (this.emails[i].selected) {
           this.emails[i].read = true
-          ids.push(Number(this.emails[i].id))
+          ids.push(this.emails[i].id)
         }
       }
       const data = {
@@ -140,7 +140,7 @@ export default {
       for (let i = 0; i < this.emails.length; i++) {
         if (this.emails[i].selected) {
           this.emails[i].read = false
-          ids.push(Number(this.emails[i].id))
+          ids.push(this.emails[i].id)
         }
       }
       const data = {
@@ -166,7 +166,7 @@ export default {
       const ids = []
       this.emails = this.emails.filter(email => {
         if (email.selected) {
-          ids.push(Number(email.id))
+          ids.push(email.id)
         }
         return !email.selected
       })
