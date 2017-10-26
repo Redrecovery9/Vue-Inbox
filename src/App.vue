@@ -6,7 +6,7 @@
     :unreadCount='unreadCount' :markRead='markRead' :markUnread='markUnread'
     :emails='emails' :selected='selected' :options='options'
     :unselected='unselected' :unoption='unoption' :deleteSelected='deleteSelected'></toolbar>
-    <compose v-show='show'></compose>
+    <compose v-show='show' :compose='compose' :composEmail='composEmail'></compose>
     <messages :emails='emails' :starred='starred'></messages>
   </div>
 </template>
@@ -26,6 +26,10 @@ export default {
   },
   data() {
     return{
+      composEmail: {
+        subject: '',
+        message: ''
+      },
       show: false,
       emails: [],
       selected: null,
@@ -187,6 +191,10 @@ export default {
            console.log(response);
          }
        })
+    },
+    compose(event) {
+      event.preventDefault()
+      console.log(this.composEmail);
     }
   }
 }
